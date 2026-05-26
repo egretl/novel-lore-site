@@ -1,0 +1,14 @@
+---
+import { getCollection } from "astro:content";
+import ListingPage from "../components/ListingPage.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { findSection } from "../lib/sections";
+
+const section = findSection("characters")!;
+const entries = await getCollection("characters");
+---
+
+<BaseLayout title={section.title}>
+  <ListingPage section={section} entries={entries} />
+</BaseLayout>
+

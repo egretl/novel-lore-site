@@ -1,0 +1,27 @@
+---
+import { getCollection } from "astro:content";
+import { SectionCard } from "../components/SectionCard";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { contentSections } from "../lib/sections";
+import type { CollectionKey } from "astro:content";
+
+const counts = new Map<string, number>();
+
+await Promise.all(
+  contentSections.map(async (section) => {
+    counts.set(section.key, (await getCollection(section.key as CollectionKey)).length);
+  }),
+);
+---
+
+<BaseLayout title="小说世界观百科">
+  <section class="hero">
+    <p>空框架已就绪</p>
+    <h1>把世界设定整理成能演化故事的百科系统</h1>
+    <span>当前站点只包含栏目框架、后台入口和关系导图骨架，不包含任何小说设定正文。</span>
+  </section>
+
+  <section class="section-grid" aria-label="百科栏目">
+    {contentSections.map((section) => <SectionCard section={section} count={counts.get(section.key) ?? 0} />)}
+  </section>
+</BaseLayout>

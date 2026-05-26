@@ -1,0 +1,81 @@
+backend:
+  name: github
+  repo: egretl/novel-lore-site
+  branch: main
+
+media_folder: public/uploads
+public_folder: /uploads
+locale: zh_Hans
+
+collections:
+  - name: world
+    label: 世界总览
+    folder: src/content/world
+    create: true
+    slug: "{{slug}}"
+    fields: &lore_fields
+      - { label: 唯一标识, name: id, widget: string }
+      - { label: 标题, name: title, widget: string }
+      - { label: 分类, name: category, widget: string }
+      - { label: 摘要, name: summary, widget: text, required: false }
+      - { label: 状态, name: status, widget: select, options: [draft, active, archived], default: draft }
+      - { label: 标签, name: tags, widget: list, required: false }
+      - { label: 图片, name: image, widget: image, required: false }
+      - { label: 正文, name: body, widget: markdown, required: false }
+  - name: settings
+    label: 基本设定
+    folder: src/content/settings
+    create: true
+    slug: "{{slug}}"
+    fields: *lore_fields
+  - name: regions
+    label: 地域/国家
+    folder: src/content/regions
+    create: true
+    slug: "{{slug}}"
+    fields: *lore_fields
+  - name: factions
+    label: 势力组织
+    folder: src/content/factions
+    create: true
+    slug: "{{slug}}"
+    fields: *lore_fields
+  - name: characters
+    label: 人物档案
+    folder: src/content/characters
+    create: true
+    slug: "{{slug}}"
+    fields: *lore_fields
+  - name: events
+    label: 历史时间线
+    folder: src/content/events
+    create: true
+    slug: "{{slug}}"
+    fields: *lore_fields
+  - name: concepts
+    label: 术语/概念
+    folder: src/content/concepts
+    create: true
+    slug: "{{slug}}"
+    fields: *lore_fields
+  - name: artifacts
+    label: 物品/遗物
+    folder: src/content/artifacts
+    create: true
+    slug: "{{slug}}"
+    fields: *lore_fields
+  - name: relations
+    label: 关系
+    folder: src/content/relations
+    create: true
+    extension: json
+    format: json
+    slug: "{{slug}}"
+    fields:
+      - { label: 起点 ID, name: sourceId, widget: string }
+      - { label: 终点 ID, name: targetId, widget: string }
+      - { label: 关系类型, name: type, widget: select, options: [belongs_to, opposes, controls, located_in, caused_by, knows, seeks, related_to], default: related_to }
+      - { label: 显示名称, name: label, widget: string, default: 相关 }
+      - { label: 关系强度, name: strength, widget: number, min: 1, max: 5, default: 1 }
+      - { label: 说明, name: description, widget: text, required: false }
+

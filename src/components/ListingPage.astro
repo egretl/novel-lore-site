@@ -1,0 +1,45 @@
+---
+import type { SectionDefinition } from "../lib/sections";
+
+type Props = {
+  section: SectionDefinition;
+  entries: Array<{
+    data: {
+      title: string;
+      summary: string;
+      category: string;
+      status: string;
+    };
+  }>;
+};
+
+const { section, entries } = Astro.props;
+---
+
+<section class="page-heading">
+  <p>百科栏目</p>
+  <h1>{section.title}</h1>
+  <span>{section.description}</span>
+</section>
+
+{
+  entries.length === 0 ? (
+    <section class="empty-panel">
+      <h2>{section.emptyText}</h2>
+      <p>可以在后台添加内容；正式发布前这里会保持空框架状态。</p>
+    </section>
+  ) : (
+    <section class="entry-grid">
+      {entries.map((entry) => (
+        <article class="entry-card">
+          <h2>{entry.data.title}</h2>
+          <p>{entry.data.summary}</p>
+          <div class="entry-card__meta">
+            <span>{entry.data.category}</span>
+            <span>{entry.data.status}</span>
+          </div>
+        </article>
+      ))}
+    </section>
+  )
+}

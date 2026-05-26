@@ -1,0 +1,42 @@
+---
+import { getCollection } from "astro:content";
+import { GraphCanvas } from "../components/GraphCanvas";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { buildGraph } from "../lib/graph";
+import type { LoreEntry } from "../lib/schemas";
+
+const contentCollections = [
+  "world",
+  "settings",
+  "regions",
+  "factions",
+  "characters",
+  "events",
+  "concepts",
+  "artifacts",
+] as const;
+
+const entries: LoreEntry[] = (
+  await Promise.all(
+    contentCollections.map(async (collection) =>
+      (await getCollection(collection)).map((entry) => ({
+        ...entry.data,
+        collection,
+      })),
+    ),
+  )
+).flat();
+
+const relations = (await getCollection("relations")).map((entry) => entry.data);
+const graph = buildGraph(entries, relations);
+---
+
+<BaseLayout title="关系导图">
+  <section class="page-heading">
+    <p>可视化</p>
+    <h1>关系导图</h1>
+    <span>展示人物、势力、地点、事件、概念之间的连接。</span>
+  </section>
+  <GraphCanvas graph={graph} client:load />
+</BaseLayout>
+
