@@ -1,6 +1,6 @@
 import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
-import { loreEntrySchema, relationSchema } from "./lib/schemas";
+import { loreEntrySchema, relationSchema, worldSchema } from "./lib/schemas";
 
 const loreCollection = (base: string) =>
   defineCollection({
@@ -9,6 +9,10 @@ const loreCollection = (base: string) =>
   });
 
 export const collections = {
+  worlds: defineCollection({
+    loader: glob({ base: "./src/content/worlds", pattern: "**/*.{md,mdx}" }),
+    schema: worldSchema,
+  }),
   world: loreCollection("./src/content/world"),
   settings: loreCollection("./src/content/settings"),
   regions: loreCollection("./src/content/regions"),
@@ -22,4 +26,3 @@ export const collections = {
     schema: relationSchema,
   }),
 };
-

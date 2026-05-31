@@ -88,4 +88,3 @@ export const contentSections = sections.filter((section) => section.key !== "gra
 export function findSection(key: SectionKey) {
   return sections.find((section) => section.key === key);
 }
-

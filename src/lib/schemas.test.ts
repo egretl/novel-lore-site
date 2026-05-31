@@ -1,5 +1,22 @@
 import { describe, expect, it } from "vitest";
-import { loreEntrySchema, relationSchema } from "./schemas";
+import { loreEntrySchema, relationSchema, worldSchema } from "./schemas";
+
+describe("worldSchema", () => {
+  it("accepts a minimal world", () => {
+    const result = worldSchema.parse({
+      id: "world-1",
+      title: "世界一",
+    });
+
+    expect(result).toMatchObject({
+      id: "world-1",
+      title: "世界一",
+      order: 1,
+      theme: "jade",
+      description: "",
+    });
+  });
+});
 
 describe("loreEntrySchema", () => {
   it("accepts a minimal lore entry", () => {
@@ -11,6 +28,7 @@ describe("loreEntrySchema", () => {
 
     expect(result).toMatchObject({
       id: "entry-id",
+      worldId: "world-1",
       title: "标题",
       category: "分类",
       summary: "",
@@ -37,6 +55,7 @@ describe("relationSchema", () => {
     });
 
     expect(result).toMatchObject({
+      worldId: "world-1",
       sourceId: "a",
       targetId: "b",
       type: "related_to",
@@ -46,4 +65,3 @@ describe("relationSchema", () => {
     });
   });
 });
-

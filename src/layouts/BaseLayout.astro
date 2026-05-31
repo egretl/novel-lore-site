@@ -1,12 +1,20 @@
 ---
 import { sections } from "../lib/sections";
+import { getSectionHref, getWorldHref } from "../lib/worlds";
 
 type Props = {
   title: string;
   description?: string;
+  worldId?: string;
+  hideHeader?: boolean;
 };
 
-const { title, description = "小说世界观百科框架" } = Astro.props;
+const { title, description = "小说世界观百科框架", worldId, hideHeader = false } = Astro.props;
+const homeHref = worldId ? getWorldHref(worldId) : "/";
+const navSections = sections.map((section) => ({
+  ...section,
+  href: worldId ? getSectionHref(worldId, section.key) : section.href,
+}));
 ---
 
 <!doctype html>
@@ -19,16 +27,19 @@ const { title, description = "小说世界观百科框架" } = Astro.props;
     <link rel="stylesheet" href="/styles/global.css" />
   </head>
   <body>
-    <header class="site-header">
-      <a class="site-title" href="/">小说世界观百科</a>
-      <nav aria-label="主导航">
-        {sections.map((section) => <a href={section.href}>{section.title}</a>)}
-      </nav>
-      <a class="admin-link" href="/admin/">后台</a>
-    </header>
+    {
+      !hideHeader && (
+        <header class="site-header">
+          <a class="site-title" href={homeHref}>小说世界观百科</a>
+          <nav aria-label="主导航">
+            {navSections.map((section) => <a href={section.href}>{section.title}</a>)}
+          </nav>
+          <a class="admin-link" href="/admin/">后台</a>
+        </header>
+      )
+    }
     <main>
       <slot />
     </main>
   </body>
 </html>
-

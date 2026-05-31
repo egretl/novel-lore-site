@@ -5,6 +5,7 @@ import type { LoreEntry, RelationRecord } from "./schemas";
 const entries: LoreEntry[] = [
   {
     id: "hero",
+    worldId: "world-1",
     title: "角色",
     category: "人物",
     summary: "",
@@ -14,6 +15,7 @@ const entries: LoreEntry[] = [
   },
   {
     id: "guild",
+    worldId: "world-1",
     title: "组织",
     category: "势力",
     summary: "",
@@ -27,6 +29,7 @@ describe("buildGraph", () => {
   it("builds graph nodes and edges from entries and relations", () => {
     const relations: RelationRecord[] = [
       {
+        worldId: "world-1",
         sourceId: "hero",
         targetId: "guild",
         type: "belongs_to",
@@ -51,6 +54,7 @@ describe("buildGraph", () => {
   it("reports missing relation references", () => {
     const graph = buildGraph(entries, [
       {
+        worldId: "world-1",
         sourceId: "hero",
         targetId: "unknown",
         type: "seeks",
@@ -63,4 +67,3 @@ describe("buildGraph", () => {
     expect(graph.missingReferences).toEqual(["unknown"]);
   });
 });
-

@@ -12,4 +12,3 @@ describe("SectionCard", () => {
     expect(screen.getByText("0")).toBeInTheDocument();
   });
 });
-

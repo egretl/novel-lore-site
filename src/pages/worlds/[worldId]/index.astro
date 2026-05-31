@@ -1,0 +1,46 @@
+---
+import { getCollection } from "astro:content";
+import { SectionCard } from "../../../components/SectionCard";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { contentSections } from "../../../lib/sections";
+import { filterByWorld, getSectionHref, sortWorlds } from "../../../lib/worlds";
+import type { CollectionKey } from "astro:content";
+
+export async function getStaticPaths() {
+  const worlds = sortWorlds((await getCollection("worlds")).map((world) => world.data));
+
+  return worlds.map((world) => ({
+    params: { worldId: world.id },
+    props: { world },
+  }));
+}
+
+const { world } = Astro.props;
+const counts = new Map<string, number>();
+
+await Promise.all(
+  contentSections.map(async (section) => {
+    const entries = await getCollection(section.key as CollectionKey);
+    counts.set(section.key, filterByWorld(entries.map((entry) => entry.data), world.id).length);
+  }),
+);
+---
+
+<BaseLayout title={`${world.title}百科`} worldId={world.id}>
+  <section class="hero">
+    <p>{world.title}</p>
+    <h1>把这个世界的设定整理成能持续扩展的百科系统</h1>
+    <span>{world.description}</span>
+  </section>
+
+  <section class="section-grid" aria-label="百科栏目">
+    {
+      contentSections.map((section) => (
+        <SectionCard
+          section={{ ...section, href: getSectionHref(world.id, section.key) }}
+          count={counts.get(section.key) ?? 0}
+        />
+      ))
+    }
+  </section>
+</BaseLayout>

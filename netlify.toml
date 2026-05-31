@@ -7,3 +7,56 @@
   to = "/admin/"
   status = 301
 
+[[redirects]]
+  from = "/world/"
+  to = "/worlds/world-1/world/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/settings/"
+  to = "/worlds/world-1/settings/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/regions/"
+  to = "/worlds/world-1/regions/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/factions/"
+  to = "/worlds/world-1/factions/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/characters/"
+  to = "/worlds/world-1/characters/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/events/"
+  to = "/worlds/world-1/events/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/concepts/"
+  to = "/worlds/world-1/concepts/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/artifacts/"
+  to = "/worlds/world-1/artifacts/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/graph/"
+  to = "/worlds/world-1/graph/"
+  status = 301
+  force = true

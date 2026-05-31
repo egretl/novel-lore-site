@@ -8,12 +8,31 @@ public_folder: /uploads
 locale: zh_Hans
 
 collections:
+  - name: worlds
+    label: 世界
+    folder: src/content/worlds
+    create: true
+    slug: "{{fields.id}}"
+    fields:
+      - { label: 唯一标识, name: id, widget: string, hint: "例如 world-5" }
+      - { label: 名称, name: title, widget: string, hint: "例如 世界五" }
+      - { label: 排序, name: order, widget: number, min: 1, value_type: int, default: 1 }
+      - { label: 主题色, name: theme, widget: select, options: [jade, gold, lake, violet], default: jade }
+      - { label: 简介, name: description, widget: text, required: false }
   - name: world
     label: 世界总览
     folder: src/content/world
     create: true
     slug: "{{slug}}"
     fields: &lore_fields
+      - label: 所属世界
+        name: worldId
+        widget: relation
+        collection: worlds
+        search_fields: [title, id]
+        value_field: id
+        display_fields: [title]
+        default: world-1
       - { label: 唯一标识, name: id, widget: string }
       - { label: 标题, name: title, widget: string }
       - { label: 分类, name: category, widget: string }
@@ -72,10 +91,17 @@ collections:
     format: json
     slug: "{{slug}}"
     fields:
+      - label: 所属世界
+        name: worldId
+        widget: relation
+        collection: worlds
+        search_fields: [title, id]
+        value_field: id
+        display_fields: [title]
+        default: world-1
       - { label: 起点 ID, name: sourceId, widget: string }
       - { label: 终点 ID, name: targetId, widget: string }
       - { label: 关系类型, name: type, widget: select, options: [belongs_to, opposes, controls, located_in, caused_by, knows, seeks, related_to], default: related_to }
       - { label: 显示名称, name: label, widget: string, default: 相关 }
       - { label: 关系强度, name: strength, widget: number, min: 1, max: 5, default: 1 }
       - { label: 说明, name: description, widget: text, required: false }
-
